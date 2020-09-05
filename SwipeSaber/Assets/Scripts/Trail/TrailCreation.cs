@@ -21,6 +21,8 @@ public class TrailCreation : MonoBehaviour
     {
         planeObj0 = new Plane(Camera.main.transform.forward * -1, this.transform.position);
         planeObj1 = new Plane(Camera.main.transform.forward * -1, this.transform.position);
+
+        TrailDestroyed.trailIsDestroyed += TrailHasBeenDestroyed;
     }
 
     // Update is called once per frame
@@ -34,6 +36,7 @@ public class TrailCreation : MonoBehaviour
             {
                 creatingTrail0 = true;
                 trail0 = (GameObject)Instantiate(trailPrefab, trailParent);
+                trail0.name = "trail0";
 
                 trail0.SetActive(false);
 
@@ -73,6 +76,8 @@ public class TrailCreation : MonoBehaviour
             {
                 creatingTrail1 = true;
                 trail1 = (GameObject)Instantiate(trailPrefab, trailParent);
+                trail1.name = "trail1";
+
 
                 trail1.SetActive(false);
                 BeganTouchPhase(trail1, planeObj1, Input.GetTouch(1).position);
@@ -91,9 +96,20 @@ public class TrailCreation : MonoBehaviour
         }                    
     }
 
+    void TrailHasBeenDestroyed(string objectName)
+    {
+        if(objectName == "trail0")
+        {
+            creatingTrail0 = false;
+        }
+        else if (objectName == "trail1")
+        {
+            creatingTrail1 = false;
+        }
+    }
+
     private void BeganTouchPhase(GameObject trail, Plane plane, Vector3 pos)
     {
-        Debug.Log("begin");
         Ray mray = Camera.main.ScreenPointToRay(pos);
 
         if (plane.Raycast(mray, out float rayDistance))
@@ -101,7 +117,10 @@ public class TrailCreation : MonoBehaviour
             startPos = mray.GetPoint(rayDistance);
         }
 
-        trail.GetComponent<SpawnColliders>().Init(colParent);
+        if(!trail.GetComponent<SpawnColliders>().initialized)
+        {
+            trail.GetComponent<SpawnColliders>().Init(colParent);
+        }
 
         trail.SetActive(true);
         trail.transform.position = startPos;
@@ -110,22 +129,30 @@ public class TrailCreation : MonoBehaviour
 
     private void MovedTouchPhase(GameObject trail, Plane plane, Vector3 pos)
     {
-        Ray mRay = Camera.main.ScreenPointToRay(pos);
-        float rayDistance;
-
-        if (plane.Raycast(mRay, out rayDistance))
+        if (trail != null)
         {
-            trail.transform.position = mRay.GetPoint(rayDistance);
+            Ray mRay = Camera.main.ScreenPointToRay(pos);
+            float rayDistance;
+
+            if (plane.Raycast(mRay, out rayDistance))
+            {
+                trail.transform.position = mRay.GetPoint(rayDistance);
+            }
         }
     }
 
     private void EndTouchPhase(GameObject trail, bool trailBool)
     {
-        if (Vector3.Distance(trail.transform.position, startPos) < .1f)
-        {            
-           trail.GetComponent<SpawnColliders>().ClearPool();
-           Destroy(trail);
-            trailBool = false;
+        if(trail != null)
+        {
+            if (Vector3.Distance(trail.transform.position, startPos) < .1f)
+            {
+                Debug.Log("pool cleared");
+                //trail.GetComponent<SpawnColliders>().ClearPool();
+                //Destroy(trail);
+                trailBool = false;
+            }
         }
+      
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5888119473603431724}
   - component: {fileID: 5888119473603431730}
   - component: {fileID: 1751771488665820699}
+  - component: {fileID: 7113315414550363211}
   m_Layer: 0
   m_Name: Trail
   m_TagString: SwipeTrail
@@ -136,7 +137,7 @@ TrailRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1
 --- !u!114 &1751771488665820699
 MonoBehaviour:
@@ -158,3 +159,15 @@ MonoBehaviour:
   poolSize: 10
   pool: []
   poolList: []
+--- !u!114 &7113315414550363211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5888119473603431729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8de67719dd7d74ea73f9bce9b9dc67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

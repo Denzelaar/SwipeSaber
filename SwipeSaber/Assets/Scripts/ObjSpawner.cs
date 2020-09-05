@@ -133,6 +133,7 @@ public class ObjSpawner : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             gameObjPool[i] = Instantiate(blockPrefab, gameObjPoolParent);
+            gameObjPool[i].name = gameObjPool[i].name + " " + i;
             gameObjPool[i].SetActive(false);
         }
     }
@@ -166,9 +167,7 @@ public class ObjSpawner : MonoBehaviour
     {
         Direction newDirection = Direction.Null;
 
-
         //turn chances into a direction float dictionary 
-
         Dictionary<Direction, float> chances = new Dictionary<Direction, float>(allowedDirections.Count);
 
         foreach (var item in allowedDirections)
@@ -200,7 +199,6 @@ public class ObjSpawner : MonoBehaviour
         }
 
         float highestPercentage = 0;
-        Direction highestChangeWinner = 0;
 
         foreach (var item in chances)
         {

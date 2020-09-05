@@ -48,7 +48,7 @@ public class BlockMovement : MonoBehaviour
     IEnumerator DestroyBlock(float timeIsSeconds)
     {
         yield return new WaitForSeconds(timeIsSeconds);
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     /*private void OnTriggerEnter2D(Collider2D collision)

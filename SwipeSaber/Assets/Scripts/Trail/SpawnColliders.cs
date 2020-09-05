@@ -12,9 +12,11 @@ public class SpawnColliders : MonoBehaviour
     public int poolSize = 5;
     public GameObject[] pool;
     public List<GameObject> poolList;
+    public bool initialized { get; private set; } = false;
 
     public void Init(Transform colParent)
     {
+
         trail = GetComponent<TrailRenderer>();
         pool = new GameObject[poolSize];
         poolList = new List<GameObject>(poolSize);    
@@ -23,8 +25,9 @@ public class SpawnColliders : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             poolList.Add(Instantiate(colliderPrefab, colliderParent));
-            Debug.Log("Insta " + i);
         }
+
+        initialized = true;
     }
 
     void FixedUpdate()
@@ -75,7 +78,7 @@ public class SpawnColliders : MonoBehaviour
         for (int i = 0; i < length; i++)
         {
             Destroy(poolList[i]);
-            Debug.Log("Destroyed " + i + " out of: " + poolList.Count);
+            //Debug.Log("Destroyed " + i + " out of: " + poolList.Count);
         }
 
     }

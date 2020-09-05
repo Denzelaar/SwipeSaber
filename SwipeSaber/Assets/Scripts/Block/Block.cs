@@ -15,6 +15,7 @@ public enum Direction
 public class Block : MonoBehaviour
 {
     public Direction blockDirection; //{ get; private set; }
+    public bool hit;
 
     BlockCollision bc;
     BlockMovement bm;
@@ -22,21 +23,35 @@ public class Block : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
 
-    Color spriteColor;
+    public Color spriteColor;
 
     // Start is called before the first frame update
-    public void Init(Direction bd, float speed, bool moving)
+    private void Start()
     {
-        blockDirection = bd;
         bc = GetComponent<BlockCollision>();
         bm = GetComponent<BlockMovement>();
         arrowTransform = transform.GetChild(0).GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteColor = spriteRenderer.color;
+    }
 
+    public void Init(Direction bd, float speed, bool moving)
+    {
+        if(bc == null)
+        {
+            Start();
+        }
+
+        blockDirection = bd;       
         bc.Init(blockDirection);
         bm.Init(speed, moving);
         RotateSprite(bd);
-        spriteColor = spriteRenderer.color;
+
+        if (hit)
+        {
+            ChangeColorBack();
+
+        }
     }
 
     public void Hit()
@@ -46,14 +61,25 @@ public class Block : MonoBehaviour
 
     public void WrongDirectionHit()
     {
+        hit = true;
         spriteRenderer.color = Color.red;
-        StartCoroutine(ChangeColor(.5f));
+
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(ChangeColor(.5f));
+        }
     }
 
     IEnumerator ChangeColor(float sec)
     {
         yield return new WaitForSeconds(sec);
+        ChangeColorBack();
+    }
+
+    void ChangeColorBack()
+    {
         spriteRenderer.color = spriteColor;
+        hit = false;
     }
 
     void RotateSprite(Direction dir)
