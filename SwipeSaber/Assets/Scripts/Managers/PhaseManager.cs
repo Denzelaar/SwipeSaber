@@ -28,12 +28,14 @@ public class PhaseManager : Singleton<PhaseManager>
     public delegate void OnNewPhase(PhaseDetails phaseDetails);
     public static OnNewPhase NewPhase;
 
+    public int newPhaseBy;
+
     int phasesUsed = 0;
     List<PhaseDetails> pastPhases = new List<PhaseDetails>();
-    PhaseDetails newPhase;
+
 
     // Start is called before the first frame update
-    public void Init()
+    public void PhaseInit()
     {
         GeneralManager.RequestNewPhase += GetPhase;
     }
@@ -46,13 +48,16 @@ public class PhaseManager : Singleton<PhaseManager>
 
     void GetPhase(int score)
     {
-        newPhase = ChoosePhase();
-        //find way to call choosephase again if Getphase matches past phases
+        if (score % newPhaseBy == 0 || score == 0)
+        {
+            PhaseDetails newPhase = ChoosePhase();
+            //find way to call choosephase again if Getphase matches past phases
 
-        ImplementPhase(newPhase);
+            ImplementPhase(newPhase);
 
-        pastPhases.Add(newPhase);
-        phasesUsed++;
+            pastPhases.Add(newPhase);
+            phasesUsed++;
+        }        
     }
 
     void ImplementPhase(PhaseDetails phase)

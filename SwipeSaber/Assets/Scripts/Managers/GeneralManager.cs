@@ -19,8 +19,9 @@ public class GeneralManager : Singleton<GeneralManager>
     {
         Phases.Instance.StartFill();
 
-        phaseManager.Init();
+        phaseManager.PhaseInit();
         spawnManager.Init(timerInterval, poolSize);
+        scoreManager.ScoreInit();
 
         ScoreManager.ScoreReached += NewPhaseRequest;
 

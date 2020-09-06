@@ -14,6 +14,9 @@ public enum Direction
 
 public class Block : MonoBehaviour
 {
+    public delegate void OnHit();
+    public static OnHit BlockHit;
+
     public Direction blockDirection; //{ get; private set; }
     public bool hit;
 
@@ -54,8 +57,12 @@ public class Block : MonoBehaviour
         }
     }
 
-    public void Hit()
+    public void Hit(bool score)
     {
+        if (score)
+        {
+            BlockHit();
+        }
         gameObject.SetActive(false);
     }
 

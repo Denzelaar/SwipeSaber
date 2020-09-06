@@ -15,7 +15,7 @@ public class Phases : Singleton<Phases>
     {
         AllPhases[0] = new PhaseDetails
             (
-                "FastPhase", 
+                "Fast", 
                 2.5f,
                 2.5f,
                 .05f,
@@ -25,7 +25,7 @@ public class Phases : Singleton<Phases>
 
         AllPhases[1] = new PhaseDetails
             (
-                "SlowPhase",
+                "Slow",
                 1.5f,
                 1.5f,
                 .05f,

@@ -10,22 +10,14 @@ public class ScoreManager : Singleton<ScoreManager>
     public int Score { get; private set; }
 
     // Start is called before the first frame update
-    void Start()
+    public void ScoreInit()
     {
-        
+        Block.BlockHit += BlockHit;
     }
 
-    // Update is called once per frame
-    void Update()
+    void BlockHit()
     {
-        
-    }
-
-    void CheckScore()
-    {
-        if(Score > 1)
-        {
-            ScoreReached.Invoke(Score);
-        }
+        Score++;
+        ScoreReached.Invoke(Score);
     }
 }

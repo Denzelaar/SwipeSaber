@@ -70,7 +70,7 @@ public class BlockCollision : MonoBehaviour
             {
                 if(swipeDirection == blockDirection)
                 {
-                    gameObject.GetComponent<Block>().Hit();
+                    gameObject.GetComponent<Block>().Hit(true);
                 }
                 else
                 {
@@ -80,7 +80,7 @@ public class BlockCollision : MonoBehaviour
         }
         else if(collision.CompareTag("UpperBorder"))
         {
-            gameObject.GetComponent<Block>().Hit();
+            gameObject.GetComponent<Block>().Hit(false);
         }
     
     }
