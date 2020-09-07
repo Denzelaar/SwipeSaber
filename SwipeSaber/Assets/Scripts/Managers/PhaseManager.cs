@@ -7,19 +7,21 @@ public struct PhaseDetails
     public string PhaseName { get; private set; }
     public float SpawnSpeed { get; private set; }
     public float BlockSpeed { get; private set; }
-    public float DoubleSidedSpawnChance { get; private set; }
     public float ObstacleChance { get; private set; }
+    public float DoubleSidedSpawnChance { get; private set; }
     public Direction[] AllowedDirectoins { get; private set; }
+    public Dictionary<ObstacleType, float> AllowedObjects { get; private set; }
 
-    public PhaseDetails(string Name, float speed, float bs, float chanceOfDoubleSpawn,
-    float obst, Direction[] directions)
+    public PhaseDetails(string Name, float speed, float bs, float obstacleChance, float chanceOfDoubleSpawn,
+    Direction[] directions, Dictionary<ObstacleType, float> objects)
     {
         PhaseName = Name;
         SpawnSpeed = speed;
         BlockSpeed = bs;
+        ObstacleChance = obstacleChance;
         DoubleSidedSpawnChance = chanceOfDoubleSpawn;
-        ObstacleChance = obst;
         AllowedDirectoins = directions;
+        AllowedObjects = objects;
     }   
 }
 

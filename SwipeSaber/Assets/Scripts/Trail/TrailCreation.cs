@@ -78,7 +78,6 @@ public class TrailCreation : MonoBehaviour
                 trail1 = (GameObject)Instantiate(trailPrefab, trailParent);
                 trail1.name = "trail1";
 
-
                 trail1.SetActive(false);
                 BeganTouchPhase(trail1, planeObj1, Input.GetTouch(1).position);
 

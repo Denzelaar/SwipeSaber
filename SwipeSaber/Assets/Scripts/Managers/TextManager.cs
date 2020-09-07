@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TextManager : MonoBehaviour
+public class TextManager :  Singleton<GeneralManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public List<Text> gameTexts;
 
-    // Update is called once per frame
-    void Update()
+    void UpdateText(string textName, string updateText)
     {
-        
+        foreach (var item in gameTexts)
+        {
+            if(item.gameObject.name == textName)
+            {
+                item.text = updateText;
+            }
+        }
     }
 }

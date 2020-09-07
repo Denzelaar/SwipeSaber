@@ -18,6 +18,11 @@ public class BlockCollision : MonoBehaviour
 
     Direction CheckCollisionDirection(Vector2 pos)
     {
+        //three points, check if new point is to left, right, above or below last point, check if their is 2 last points,
+        //if true check if this point has same direction from last point as last point had to point before it.
+        //if true return direction, if false return false
+        //lastly set point 2 to point 1 and point 3 to point 2
+
         Direction direction = Direction.Null;
 
         if (firstCollisionPoint == Vector2.zero)

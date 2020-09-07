@@ -18,9 +18,10 @@ public class Phases : Singleton<Phases>
                 "Fast", 
                 2.5f,
                 2.5f,
-                .05f,
-                0,
-                new Direction[2]{ Direction.Right, Direction.Left}
+                .1f,
+                .05f, 
+                new Direction[2]{ Direction.Right, Direction.Left},
+                new Dictionary<ObstacleType, float>() { }
             );
 
         AllPhases[1] = new PhaseDetails
@@ -28,10 +29,10 @@ public class Phases : Singleton<Phases>
                 "Slow",
                 1.5f,
                 1.5f,
-                .05f,
-                0,
-                new Direction[2] { Direction.Up, Direction.Down}
-
+                .1f,
+                .05f,       
+                new Direction[2] { Direction.Up, Direction.Down},
+                new Dictionary<ObstacleType, float>() { }
             );
     }
 }

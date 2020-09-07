@@ -12,8 +12,9 @@ public class ObjSpawner : MonoBehaviour
 
     PhaseDetails currentPhase;
 
+    Dictionary<ObstacleType, float> obstaclesAllowed;
     List<Direction> directionsAllowedInPhase = new List<Direction>();
-
+   
     List<Direction> pastDirections = new List<Direction>();
     List<Transform> pastSpawnPoints = new List<Transform>();
     List<Transform> pastObjs = new List<Transform>();
@@ -25,9 +26,7 @@ public class ObjSpawner : MonoBehaviour
     float blockSpeed;
 
     float doubleSidedSpawnChance;
-
-    float obstChance;
-
+    float obstacleChance;
     int poolSize = 5;
 
 
@@ -51,41 +50,59 @@ public class ObjSpawner : MonoBehaviour
     {
         bool objSpawned = false;
         Transform firstSpawnPoint = null;
+
         if (CalculateChance(doubleSidedSpawnChance))
         {
-            if (obstChance != 0)
+            firstSpawnPoint = ChooseSpawnPoint(pastSpawnPoints, spawnPoints);
+
+            if (obstaclesAllowed.Count != 0)
             {
-                if (CalculateChance(obstChance))
+                if (CalculateChance(obstacleChance))
                 {
-                    //spawn Obsrtalcesc
+                    CreateBlock(firstSpawnPoint, true);
                 }
             }
             else
             {
-                firstSpawnPoint = CreateBlock(spawnPoints);
+                CreateBlock(firstSpawnPoint);
                 objSpawned = true;
+            }
+
+            if (pastSpawnPoints.Count > 5)
+            {
+                pastSpawnPoints.RemoveAt(pastSpawnPoints.Count - 1);
+                pastSpawnPoints.Add(firstSpawnPoint);
             }
         }
 
-        if(firstSpawnPoint != null)
+        Transform secondSpawnPoint = null;
+
+        if (firstSpawnPoint != null)
         {
             List<Transform> leftOverSpawnPoints = new List<Transform>(spawnPoints);
             leftOverSpawnPoints.Remove(firstSpawnPoint);
-            CreateBlock(leftOverSpawnPoints);
+            secondSpawnPoint = ChooseSpawnPoint(pastSpawnPoints, leftOverSpawnPoints);
+            CreateBlock(secondSpawnPoint);
             objSpawned = true;
         }
         else
         {
-            CreateBlock(spawnPoints);
+            secondSpawnPoint = ChooseSpawnPoint(pastSpawnPoints, spawnPoints);
+            CreateBlock(secondSpawnPoint);
             objSpawned = true;
+        }
+
+        if (pastSpawnPoints.Count > 5)
+        {
+            pastSpawnPoints.RemoveAt(pastSpawnPoints.Count - 1);
+            pastSpawnPoints.Add(secondSpawnPoint);
         }
 
         return objSpawned;        
     }
 
-    Transform CreateBlock(List<Transform> spawnPoints)
+    void CreateBlock(Transform spawnPos, bool isObstacle = false)
     {
-        Transform spawnPos = ChooseSpawnPoint(pastSpawnPoints, spawnPoints);
         Direction blockDir = ChooseBlockDirection(pastDirections, directionsAllowedInPhase);
 
         GameObject gameObjToSpawn = RetrieveGameObject(gameObjPool);
@@ -93,37 +110,34 @@ public class ObjSpawner : MonoBehaviour
         if (gameObjToSpawn != null)
         {
             gameObjToSpawn.transform.localPosition = spawnPos.position;
-            gameObjToSpawn.GetComponent<Block>().Init(blockDir, blockSpeed, true);
+
+            if (!isObstacle)
+            {
+                ObstacleType newObstacle = ChooseObstacle(obstaclesAllowed);
+
+                gameObjToSpawn.GetComponent<Block>().Init(blockDir, blockSpeed, true, newObstacle);
+            }
+            else
+            {
+                gameObjToSpawn.GetComponent<Block>().Init(blockDir, blockSpeed, true);
+
+            }
             gameObjToSpawn.SetActive(true);
         }
         else
         {
             Debug.Log("No GameObject avaible in pool");
         }
-
-        if(pastSpawnPoints.Count > 5)
-        {
-            pastSpawnPoints.RemoveAt(pastSpawnPoints.Count - 1);
-            pastSpawnPoints.Add(spawnPos);
-        }
-
-        if(pastDirections.Count > 5)
-        {
-            pastDirections.RemoveAt(pastDirections.Count - 1);
-            pastDirections.Add(blockDir);
-        }
-
-
-        return spawnPos;
     }
 
     public void PhaseChange(PhaseDetails newPhase)
     {
         directionsAllowedInPhase.Clear();
         directionsAllowedInPhase = new List<Direction>(newPhase.AllowedDirectoins);
-        this.blockSpeed = newPhase.BlockSpeed;
-        obstChance = newPhase.ObstacleChance;
-        this.doubleSidedSpawnChance = newPhase.DoubleSidedSpawnChance;
+        blockSpeed = newPhase.BlockSpeed;
+        obstacleChance = newPhase.ObstacleChance;
+        doubleSidedSpawnChance = newPhase.DoubleSidedSpawnChance;
+        obstaclesAllowed = newPhase.AllowedObjects;
     }
 
     void FillPool()
@@ -153,14 +167,6 @@ public class ObjSpawner : MonoBehaviour
         }
 
         return gameObjToSpawn;
-    }
-
-    bool NextObjIsObstacle()
-    {
-        bool nextObjIsObstacle = false;
-
-
-        return nextObjIsObstacle;
     }
 
     Direction ChooseBlockDirection(List<Direction> pastDirections, List<Direction> allowedDirections)
@@ -264,6 +270,30 @@ public class ObjSpawner : MonoBehaviour
         return newSpawnPoint;
     }
 
+
+    ObstacleType ChooseObstacle(Dictionary<ObstacleType, float> allowedObstacles)
+    {
+        ObstacleType newDirection = ObstacleType.Null;
+
+        //turn chances into a direction float dictionary 
+        //Dictionary<Direction, float> chances = new Dictionary<Direction, float>(allowedDirections.Count);
+
+        float highestPercentage = 0;
+
+        foreach (var item in allowedObstacles)
+        {
+            float random = Random.Range(0, item.Value);
+
+            if (random > highestPercentage)
+            {
+                highestPercentage = random;
+                newDirection = item.Key;
+            }
+        }
+
+        return newDirection;
+    }
+
     bool CalculateChance(float chance)
     {
         bool returnBool = false;
@@ -276,4 +306,5 @@ public class ObjSpawner : MonoBehaviour
 
         return returnBool;
     }
+
 }

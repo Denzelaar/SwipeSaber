@@ -38,7 +38,7 @@ public class Block : MonoBehaviour
         spriteColor = spriteRenderer.color;
     }
 
-    public void Init(Direction bd, float speed, bool moving)
+    public void Init(Direction bd, float speed, bool moving, ObstacleType obstacleType = ObstacleType.Null)
     {
         if(bc == null)
         {
@@ -53,7 +53,26 @@ public class Block : MonoBehaviour
         if (hit)
         {
             ChangeColorBack();
+        }
 
+        if(obstacleType != ObstacleType.Null)
+        {
+            if(obstacleType == ObstacleType.Shield)
+            {
+                //change child to schield, activate collider
+            }
+            else if(obstacleType == ObstacleType.Slime)
+            {
+                //change child to slime, activate sprite
+            }
+            else if(obstacleType == ObstacleType.Spike)
+            {
+                //change child to spike, deactivate spriterenderer
+            }
+        }
+        else
+        {
+            //check if spriteRenderer is active
         }
     }
 
