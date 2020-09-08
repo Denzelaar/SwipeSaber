@@ -18,30 +18,40 @@ public class Block : MonoBehaviour
     public static OnHit BlockHit;
 
     public Direction blockDirection; //{ get; private set; }
-    public bool hit;
+
+    public bool wrongHit;
+
     public GameObject obstacleChild;
+
+    public Transform arrowTransform;
+
     public ObstacleType obstacleType;
+
+    public Color spriteColor;
 
     BlockCollision bc;
     BlockMovement bm;
-    Transform arrowTransform;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer obstacleChildRenderer;
 
     Collider2D obstacleChildCollider;
 
+    Dissolve dissolve;
+    Dissolve arrowDissolve;
 
-    public Color spriteColor;
 
     // Start is called before the first frame update
     private void Start()
     {
         bc = GetComponent<BlockCollision>();
         bm = GetComponent<BlockMovement>();
-        arrowTransform = transform.GetChild(0).GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteColor = spriteRenderer.color;
+
+        dissolve = GetComponent<Dissolve>();
+        arrowDissolve = arrowTransform.gameObject.GetComponent<Dissolve>();
+
 
         obstacleChildRenderer = obstacleChild.GetComponent<SpriteRenderer>();
         obstacleChildCollider = obstacleChild.GetComponent<Collider2D>();
@@ -49,7 +59,7 @@ public class Block : MonoBehaviour
 
     public void Init(Direction bd, float speed, bool moving, ObstacleType obstacleType = ObstacleType.Null)
     {
-        if(bc == null)
+        if (bc == null)
         {
             Start();
         }
@@ -59,27 +69,71 @@ public class Block : MonoBehaviour
         bm.Init(speed, moving);
         RotateSprite(bd);
 
-        if (hit)
+        if (wrongHit)
         {
+            wrongHit = false;
             ChangeColorBack();
+
+        }
+
+        Debug.Log(arrowTransform.gameObject.activeSelf);
+        if (!arrowTransform.gameObject.activeSelf)
+        {
+            arrowTransform.gameObject.SetActive(true);
         }
 
         this.obstacleType = obstacleType;
 
+        CheckObstacleType();
+
+      
+    }
+
+    void StartDissolve()
+    {
+        float random = Random.Range(10.0f, 100.0f);
+
+        dissolve.StartDissolve(random);
+        arrowDissolve.StartDissolve(random);
+        
+    }
+
+    public void Hit(bool score)
+    {
+        if (score)
+        {
+            StartDissolve();
+            BlockHit();
+        }
+    }
+
+    public void WrongDirectionHit()
+    {
+        wrongHit = true;
+        spriteRenderer.color = Color.red;
+
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(ChangeColor(.5f));
+        }
+    }
+
+    void CheckObstacleType()
+    {
         if (obstacleType != ObstacleType.Null)
         {
-            if(obstacleType == ObstacleType.Shield)
+            if (obstacleType == ObstacleType.Shield)
             {
                 //change child to shield, activate collider
-                obstacleChildRenderer.sprite = Resources.Load();
+                //obstacleChildRenderer.sprite = Resources.Load();
                 obstacleChildRenderer.enabled = true;
 
                 obstacleChildCollider.enabled = true;
             }
-            else if(obstacleType == ObstacleType.Slime)
+            else if (obstacleType == ObstacleType.Slime)
             {
                 //change child to slime, activate sprite
-                obstacleChildRenderer.sprite = Resources.Load();
+                //obstacleChildRenderer.sprite = Resources.Load();
                 obstacleChildRenderer.enabled = true;
 
                 if (obstacleChildCollider.enabled)
@@ -87,10 +141,10 @@ public class Block : MonoBehaviour
                     obstacleChildCollider.enabled = false;
                 }
             }
-            else if(obstacleType == ObstacleType.Spike)
+            else if (obstacleType == ObstacleType.Spike)
             {
                 //change child to spike, deactivate spriterenderer
-                obstacleChildRenderer.sprite = Resources.Load();
+                //obstacleChildRenderer.sprite = Resources.Load();
                 obstacleChildRenderer.enabled = true;
 
                 obstacleChildCollider.enabled = true;
@@ -107,26 +161,6 @@ public class Block : MonoBehaviour
         }
     }
 
-    public void Hit(bool score)
-    {
-        if (score)
-        {
-            BlockHit();
-        }
-        gameObject.SetActive(false);
-    }
-
-    public void WrongDirectionHit()
-    {
-        hit = true;
-        spriteRenderer.color = Color.red;
-
-        if (gameObject.activeSelf)
-        {
-            StartCoroutine(ChangeColor(.5f));
-        }
-    }
-
     IEnumerator ChangeColor(float sec)
     {
         yield return new WaitForSeconds(sec);
@@ -136,7 +170,7 @@ public class Block : MonoBehaviour
     void ChangeColorBack()
     {
         spriteRenderer.color = spriteColor;
-        hit = false;
+        wrongHit = false;
     }
 
     void RotateSprite(Direction dir)

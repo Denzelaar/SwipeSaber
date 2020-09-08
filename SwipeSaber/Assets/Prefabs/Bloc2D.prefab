@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 5635742315366870080}
   - component: {fileID: 5569406940603725062}
   - component: {fileID: 4459912364873589979}
+  - component: {fileID: 1114183388448828464}
   m_Layer: 0
   m_Name: Bloc2D
   m_TagString: Block
@@ -164,7 +165,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e334a26a14aa814c8810fae1377a917, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -257,6 +258,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockDirection: 0
   hit: 0
+  obstacleChild: {fileID: 5492944693015136903}
+  obstacleType: 0
+  arrowTransform: {fileID: 9082355001668022005}
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5569406940603725062
 MonoBehaviour:
@@ -284,6 +288,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04861408bd3cae4b85f2bfa52e56f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1114183388448828464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9082354999830873121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0a58eed7f3b5c45b759d0138912691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDissolving: 0
 --- !u!1 &9082355001668022004
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9082355001668022005}
   - component: {fileID: 9082355001668022006}
+  - component: {fileID: 3866681381481608381}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -333,7 +351,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e334a26a14aa814c8810fae1377a917, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -365,3 +383,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3866681381481608381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9082355001668022004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0a58eed7f3b5c45b759d0138912691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDissolving: 0

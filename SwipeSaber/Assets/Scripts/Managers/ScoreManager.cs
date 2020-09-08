@@ -20,4 +20,10 @@ public class ScoreManager : Singleton<ScoreManager>
         Score++;
         ScoreReached.Invoke(Score);
     }
+
+    private void OnDisable()
+    {
+        Block.BlockHit -= BlockHit;
+
+    }
 }

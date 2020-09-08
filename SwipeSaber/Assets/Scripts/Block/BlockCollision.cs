@@ -12,10 +12,13 @@ public class BlockCollision : MonoBehaviour
 
     Direction lastDirection;
 
+    bool hit = false;
+
     // Start is called before the first frame update
     public void Init(Direction blockDirection)
     {
         this.blockDirection = blockDirection;
+        hit = false;
     }
 
     Direction CheckCollisionDirection(Vector2 pos)
@@ -83,7 +86,7 @@ public class BlockCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("SwipeTrail"))
+        if (collision.CompareTag("SwipeTrail") && !hit)
         {
             Direction swipeDirection = CheckCollisionDirection(collision.transform.position);
 
@@ -92,6 +95,7 @@ public class BlockCollision : MonoBehaviour
                 if(swipeDirection == blockDirection)
                 {
                     gameObject.GetComponent<Block>().Hit(true);
+                    hit = true;
                 }
                 else
                 {
