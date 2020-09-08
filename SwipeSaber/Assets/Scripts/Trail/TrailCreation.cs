@@ -146,7 +146,6 @@ public class TrailCreation : MonoBehaviour
         {
             if (Vector3.Distance(trail.transform.position, startPos) < .1f)
             {
-                Debug.Log("pool cleared");
                 //trail.GetComponent<SpawnColliders>().ClearPool();
                 //Destroy(trail);
                 trailBool = false;

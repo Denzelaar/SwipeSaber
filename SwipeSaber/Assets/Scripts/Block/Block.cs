@@ -19,12 +19,18 @@ public class Block : MonoBehaviour
 
     public Direction blockDirection; //{ get; private set; }
     public bool hit;
+    public GameObject obstacleChild;
+    public ObstacleType obstacleType;
 
     BlockCollision bc;
     BlockMovement bm;
     Transform arrowTransform;
 
     SpriteRenderer spriteRenderer;
+    SpriteRenderer obstacleChildRenderer;
+
+    Collider2D obstacleChildCollider;
+
 
     public Color spriteColor;
 
@@ -36,6 +42,9 @@ public class Block : MonoBehaviour
         arrowTransform = transform.GetChild(0).GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteColor = spriteRenderer.color;
+
+        obstacleChildRenderer = obstacleChild.GetComponent<SpriteRenderer>();
+        obstacleChildCollider = obstacleChild.GetComponent<Collider2D>();
     }
 
     public void Init(Direction bd, float speed, bool moving, ObstacleType obstacleType = ObstacleType.Null)
@@ -55,24 +64,46 @@ public class Block : MonoBehaviour
             ChangeColorBack();
         }
 
-        if(obstacleType != ObstacleType.Null)
+        this.obstacleType = obstacleType;
+
+        if (obstacleType != ObstacleType.Null)
         {
             if(obstacleType == ObstacleType.Shield)
             {
-                //change child to schield, activate collider
+                //change child to shield, activate collider
+                obstacleChildRenderer.sprite = Resources.Load();
+                obstacleChildRenderer.enabled = true;
+
+                obstacleChildCollider.enabled = true;
             }
             else if(obstacleType == ObstacleType.Slime)
             {
                 //change child to slime, activate sprite
+                obstacleChildRenderer.sprite = Resources.Load();
+                obstacleChildRenderer.enabled = true;
+
+                if (obstacleChildCollider.enabled)
+                {
+                    obstacleChildCollider.enabled = false;
+                }
             }
             else if(obstacleType == ObstacleType.Spike)
             {
                 //change child to spike, deactivate spriterenderer
+                obstacleChildRenderer.sprite = Resources.Load();
+                obstacleChildRenderer.enabled = true;
+
+                obstacleChildCollider.enabled = true;
             }
+            obstacleChild.SetActive(true);
         }
         else
         {
             //check if spriteRenderer is active
+            if (obstacleChild.activeSelf)
+            {
+                obstacleChild.SetActive(false);
+            }
         }
     }
 
@@ -110,6 +141,8 @@ public class Block : MonoBehaviour
 
     void RotateSprite(Direction dir)
     {
+        arrowTransform.rotation = Quaternion.identity;
+
         switch (dir)
         {
             case Direction.Up:

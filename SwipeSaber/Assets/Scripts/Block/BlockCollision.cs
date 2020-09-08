@@ -10,6 +10,8 @@ public class BlockCollision : MonoBehaviour
     Vector2 secondCollisionPoint;
     Vector2 thirdCollisionPoint;
 
+    Direction lastDirection;
+
     // Start is called before the first frame update
     public void Init(Direction blockDirection)
     {
@@ -29,17 +31,31 @@ public class BlockCollision : MonoBehaviour
         {
             firstCollisionPoint = pos;
         }
-        else 
+        else if(secondCollisionPoint == Vector2.zero)
         {
             secondCollisionPoint = pos;
 
             Vector2 dragVectorDirection = (secondCollisionPoint - firstCollisionPoint).normalized;
-           
-            
-            direction =  CalculateDirection(dragVectorDirection);
 
-            secondCollisionPoint = firstCollisionPoint;
-            firstCollisionPoint = Vector2.zero;
+            lastDirection =  CalculateDirection(dragVectorDirection);
+        }
+        else
+        {
+            thirdCollisionPoint = pos;
+
+            Vector2 dragVectorDirection = (thirdCollisionPoint - secondCollisionPoint).normalized;
+
+            Direction newDirection = CalculateDirection(dragVectorDirection);
+
+            if(lastDirection == newDirection)
+            {
+                direction = newDirection;
+            }
+
+            firstCollisionPoint = secondCollisionPoint;
+            secondCollisionPoint = thirdCollisionPoint;
+            lastDirection = newDirection;
+            Debug.Log(newDirection);
         }
 
         return direction;
