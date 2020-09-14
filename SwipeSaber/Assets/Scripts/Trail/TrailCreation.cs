@@ -42,11 +42,11 @@ public class TrailCreation : MonoBehaviour
 
                 if (Application.isEditor)
                 {
-                    BeganTouchPhase(trail0, planeObj0, Input.mousePosition);
+                    creatingTrail0 = BeganTouchPhase(trail0, planeObj0, Input.mousePosition);
                 }
                 else
                 {
-                    BeganTouchPhase(trail0, planeObj0, Input.GetTouch(0).position);
+                    creatingTrail0 = BeganTouchPhase(trail0, planeObj0, Input.GetTouch(0).position);
                 }
             }
         }
@@ -55,11 +55,11 @@ public class TrailCreation : MonoBehaviour
         {
             if (Application.isEditor)
             {
-                BeganTouchPhase(trail0, planeObj0, Input.mousePosition);
+                creatingTrail0 = BeganTouchPhase(trail0, planeObj0, Input.mousePosition);
             }
             else
             {
-                BeganTouchPhase(trail0, planeObj0, Input.GetTouch(0).position);
+                creatingTrail0 = BeganTouchPhase(trail0, planeObj0, Input.GetTouch(0).position);
             }
         }
         else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
@@ -79,7 +79,7 @@ public class TrailCreation : MonoBehaviour
                 trail1.name = "trail1";
 
                 trail1.SetActive(false);
-                BeganTouchPhase(trail1, planeObj1, Input.GetTouch(1).position);
+                creatingTrail1 = BeganTouchPhase(trail1, planeObj1, Input.GetTouch(1).position);
 
             }
         }
@@ -107,23 +107,30 @@ public class TrailCreation : MonoBehaviour
         }
     }
 
-    private void BeganTouchPhase(GameObject trail, Plane plane, Vector3 pos)
+    private bool BeganTouchPhase(GameObject trail, Plane plane, Vector3 pos)
     {
-        Ray mray = Camera.main.ScreenPointToRay(pos);
-
-        if (plane.Raycast(mray, out float rayDistance))
+        if(trail != null)
         {
-            startPos = mray.GetPoint(rayDistance);
-        }
+            Ray mray = Camera.main.ScreenPointToRay(pos);
 
-        if(!trail.GetComponent<SpawnColliders>().initialized)
+            if (plane.Raycast(mray, out float rayDistance))
+            {
+                startPos = mray.GetPoint(rayDistance);
+            }
+
+            if (!trail.GetComponent<SpawnColliders>().initialized)
+            {
+                trail.GetComponent<SpawnColliders>().Init(colParent);
+            }
+
+            trail.SetActive(true);
+            trail.transform.position = startPos;
+            return true;
+        }
+        else
         {
-            trail.GetComponent<SpawnColliders>().Init(colParent);
+            return false;
         }
-
-        trail.SetActive(true);
-        trail.transform.position = startPos;
-        
     }
 
     private void MovedTouchPhase(GameObject trail, Plane plane, Vector3 pos)

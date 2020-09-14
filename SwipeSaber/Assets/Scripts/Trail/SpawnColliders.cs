@@ -16,7 +16,6 @@ public class SpawnColliders : MonoBehaviour
 
     public void Init(Transform colParent)
     {
-
         trail = GetComponent<TrailRenderer>();
         pool = new GameObject[poolSize];
         poolList = new List<GameObject>(poolSize);    

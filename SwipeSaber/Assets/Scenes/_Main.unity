@@ -483,8 +483,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDirection: 0
-  hit: 0
-  obstacleChild: {fileID: 0}
+  wrongHit: 0
+  spike: {fileID: 0}
+  shield: {fileID: 0}
+  arrowTransform: {fileID: 0}
   obstacleType: 0
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &897570364
@@ -681,7 +683,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145205706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.1, z: 0}
+  m_LocalPosition: {x: 0, y: 11.09, z: 0}
   m_LocalScale: {x: 100, y: 7.74, z: 1}
   m_Children: []
   m_Father: {fileID: 912516723}
@@ -1579,7 +1581,7 @@ MonoBehaviour:
   spawnManager: {fileID: 1835251264}
   phaseManager: {fileID: 1835251266}
   timerInterval: 1
-  poolSize: 100
+  poolSize: 10
 --- !u!4 &1835251268
 Transform:
   m_ObjectHideFlags: 0
@@ -1958,6 +1960,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04861408bd3cae4b85f2bfa52e56f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockDirection: 0
+  lastDirection: 0
+  firstCollisionPoint: {x: 0, y: 0}
+  secondCollisionPoint: {x: 0, y: 0}
+  thirdCollisionPoint: {x: 0, y: 0}
 --- !u!114 &4459912365330580124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1970,6 +1977,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04861408bd3cae4b85f2bfa52e56f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockDirection: 0
+  lastDirection: 0
+  firstCollisionPoint: {x: 0, y: 0}
+  secondCollisionPoint: {x: 0, y: 0}
+  thirdCollisionPoint: {x: 0, y: 0}
 --- !u!114 &4459912365930151036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1982,6 +1994,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04861408bd3cae4b85f2bfa52e56f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockDirection: 0
+  lastDirection: 0
+  firstCollisionPoint: {x: 0, y: 0}
+  secondCollisionPoint: {x: 0, y: 0}
+  thirdCollisionPoint: {x: 0, y: 0}
 --- !u!114 &4459912366170247384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1994,6 +2011,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04861408bd3cae4b85f2bfa52e56f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockDirection: 0
+  lastDirection: 0
+  firstCollisionPoint: {x: 0, y: 0}
+  secondCollisionPoint: {x: 0, y: 0}
+  thirdCollisionPoint: {x: 0, y: 0}
 --- !u!114 &4459912366763685325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2006,6 +2028,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04861408bd3cae4b85f2bfa52e56f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockDirection: 0
+  lastDirection: 0
+  firstCollisionPoint: {x: 0, y: 0}
+  secondCollisionPoint: {x: 0, y: 0}
+  thirdCollisionPoint: {x: 0, y: 0}
 --- !u!1 &5492944691671554961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,8 +2206,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDirection: 0
-  hit: 0
-  obstacleChild: {fileID: 5492944691957731872}
+  wrongHit: 0
+  spike: {fileID: 0}
+  shield: {fileID: 0}
+  arrowTransform: {fileID: 0}
   obstacleType: 0
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5635742314649278531
@@ -2196,8 +2225,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDirection: 0
-  hit: 0
-  obstacleChild: {fileID: 5492944692130774660}
+  wrongHit: 0
+  spike: {fileID: 0}
+  shield: {fileID: 0}
+  arrowTransform: {fileID: 0}
   obstacleType: 0
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5635742315129601366
@@ -2213,8 +2244,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDirection: 0
-  hit: 0
-  obstacleChild: {fileID: 5492944691671554961}
+  wrongHit: 0
+  spike: {fileID: 0}
+  shield: {fileID: 0}
+  arrowTransform: {fileID: 0}
   obstacleType: 0
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5635742315478416768
@@ -2230,8 +2263,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDirection: 0
-  hit: 0
-  obstacleChild: {fileID: 5492944692924832583}
+  wrongHit: 0
+  spike: {fileID: 0}
+  shield: {fileID: 0}
+  arrowTransform: {fileID: 0}
   obstacleType: 0
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &5635742315958700551
@@ -2247,8 +2282,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDirection: 0
-  hit: 0
-  obstacleChild: {fileID: 5492944692432055488}
+  wrongHit: 0
+  spike: {fileID: 0}
+  shield: {fileID: 0}
+  arrowTransform: {fileID: 0}
   obstacleType: 0
   spriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!61 &7293652471972665749
