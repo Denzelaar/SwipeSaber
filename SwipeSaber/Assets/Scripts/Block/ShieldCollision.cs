@@ -17,7 +17,6 @@ public class ShieldCollision : Collision
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.tag);
         if (collision.CompareTag("SwipeTrail"))
         {
             Direction swipeDirection = CheckCollisionDirection(collision.transform.position);
@@ -28,7 +27,7 @@ public class ShieldCollision : Collision
                 {
                     ShieldHit.Invoke();
                 }
-                StartCoroutine(Disable(1f));
+                StartCoroutine(Disable(.2f));
 
                 if (checkShield)
                 {
@@ -36,7 +35,6 @@ public class ShieldCollision : Collision
                     col = collision.gameObject;
 
                 }
-                Debug.Log("Hit " + collision.gameObject.name + transform.parent.gameObject.name);
 
             }
         }
@@ -51,10 +49,5 @@ public class ShieldCollision : Collision
         yield return new WaitForSeconds(sec);
         transform.parent.GetComponent<Block>().OnShieldHit();
         gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        Debug.Log("Dis " + transform.parent.gameObject.name);
     }
 }
